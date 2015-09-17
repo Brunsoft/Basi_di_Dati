@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		    xmlns:h="http://java.sun.com/jsf/html"
+		    xmlns:f="http://java.sun.com/jsf/core"
+			xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+			xmlns:p="http://primefaces.org/ui"
+			xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:head>
+		<title>Gestione Piscine</title>
+		<h:outputScript library="js" name="jquery.min.js" />
+		<h:outputScript library="js" name="skel.min.js" />
+		<h:outputScript library="js" name="skel-layers.min.js" />
+		<h:outputScript library="js" name="init.js" />
+
+		<noscript>
+			<h:outputStylesheet library="css" name="skel.css"/>
+			<h:outputStylesheet library="css" name="style.css"/>
+			<h:outputStylesheet library="css" name="style-xlarge.css"/>
+		</noscript>
+	</h:head>
+	<h:body>
+
+		<!-- Header -->
+			<header id="header">
+				<h1><a href="index.jsf">Gestione Piscine.</a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="index.jsf">Homepage</a></li>
+						
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Banner -->
+			<section id="banner1" class="wrapper style2 special">
+				<h2>Dettagli impianto #{loginBean.impiantoSel.nome}</h2>
+				<p>#{loginBean.impiantoSel.comune}, #{loginBean.impiantoSel.indirizzo}</p>
+			</section>
+	
+		<!-- One -->
+
+		<hr/>
+	<!-- Header -->
+		<div class="container">
+			<h:form>
+				<div>
+					<header class="major">
+						<h2>Piscine Presenti</h2>
+					</header>					
+					<table>
+						<tr class="bold"><td>Tipologia</td> <td>Data Apertura</td> <td>Data Chiusura</td> <td>Ora Apertura</td> <td>Ora Chiusura</td></tr>
+						<ui:repeat value="#{loginBean.impiantoSel}" var="i">
+							<ui:repeat value="#{i.piscine}" var="p">
+							<tr>
+								<td>#{p.tipoString}</td>
+								<td><h:outputText value="#{p.dataA}"><f:convertDateTime timeZone="Europe/Rome" pattern="dd-MM-yyyy"/></h:outputText></td>
+								<td><h:outputText value="#{p.dataC}"><f:convertDateTime timeZone="Europe/Rome" pattern="dd-MM-yyyy"/></h:outputText></td>
+								<td><h:outputText value="#{p.oraA}"><f:convertDateTime timeZone="Europe/Rome" pattern="HH:mm"/></h:outputText></td>
+								<td><h:outputText value="#{p.oraC}"><f:convertDateTime timeZone="Europe/Rome" pattern="HH:mm"/></h:outputText></td>
+							</tr>
+							</ui:repeat>
+						</ui:repeat>
+					</table>
+				</div>
+			</h:form>
+			<hr/>
+			<h:form>		
+				<div>
+					<header class="major">
+						<h2>Numero Ingressi Giornalieri</h2>
+					</header>	
+					<div class="row uniform">				
+						<div class="4u 12u$(small)">
+							<ul class="unstyled">
+								<li><h4>Data Inizio Periodo*</h4><h:inputText value="#{loginBean.dataI}" pt:type="date" style="width: 100%;"/></li>
+							</ul>
+							<ul class="unstyled">
+								<li><h4>Data Fine Periodo*</h4><h:inputText value="#{loginBean.dataF}" pt:type="date" style="width: 100%;"/></li>
+							</ul>
+							<ul class="unstyled">
+								<li><h:commandButton value="FILTRA PERIODO" action="#{loginBean.cercaIngressi}" class="button" style="margin-left: 25%"/></li>
+							</ul>
+						</div>
+						<div class="8u 12u$(small)">
+							<table>
+								<tr class="bold">
+									<td>Data</td>
+									<td>Numero Ingressi</td>
+								</tr>
+								<ui:repeat value="#{loginBean.impiantoSel}" var="i">
+									<ui:repeat value="#{i.giorni}" var="g">
+										<tr>
+											<td><h:outputText value="#{g.data}"><f:convertDateTime timeZone="Europe/Rome" pattern="dd-MM-yyyy"/></h:outputText></td>
+											<td><h:outputText value="#{g.ningr}"></h:outputText></td>
+										</tr>
+									</ui:repeat>
+								</ui:repeat>
+							</table>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+    </h:body>
+</html>

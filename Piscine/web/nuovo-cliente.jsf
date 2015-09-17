@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		    xmlns:h="http://java.sun.com/jsf/html"
+		    xmlns:f="http://java.sun.com/jsf/core"
+			xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+			xmlns:p="http://primefaces.org/ui"
+			xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:head>
+		<title>Gestione Piscine</title>
+		<h:outputScript library="js" name="jquery.min.js" />
+		<h:outputScript library="js" name="skel.min.js" />
+		<h:outputScript library="js" name="skel-layers.min.js" />
+		<h:outputScript library="js" name="init.js" />
+
+		<noscript>
+			<h:outputStylesheet library="css" name="skel.css"/>
+			<h:outputStylesheet library="css" name="style.css"/>
+			<h:outputStylesheet library="css" name="style-xlarge.css"/>
+		</noscript>
+	</h:head>
+	<h:body>
+
+		<!-- Header -->
+			<header id="header">
+				<h1><a href="area-riservata.jsf">#{loginBean.impianto}.</a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="area-riservata.jsf">Indietro</a></li>
+						<li>
+							<h:form>
+								<p:commandButton action="#{loginBean.logout}" value="Logout"  ajax="false" class="button"></p:commandButton>
+							</h:form>
+						</li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Banner -->
+			<section id="banner1" class="wrapper style2 special">
+				<h2>Inserisci Nuovo Cliente</h2>
+				<p>Iscrivi un cliente all'Impianto "#{loginBean.impianto}".</p>
+				<h:messages for="error" id="error"/>
+				<h:messages for="notific" id="notific"/>
+			</section>
+			
+			<div class="container">
+				
+					<hr/>
+					<div class="row uniform">	
+									
+						<div class="6u 12u$(small)">
+							<h:form>
+							<header>
+								<h2>Iscrivi nuovo Cliente</h2>
+							</header>
+							<ul class="unstyled">
+								<li><h3>Nome*</h3><p:inputText value="#{clienti.nomeCliente}" required="true"/></li>
+								<li><h3>Cognome*</h3><p:inputText value="#{clienti.cognomeCliente}" required="true"/></li>
+								<li><h3>Tipo*</h3>
+									<h:selectOneMenu value="#{clienti.tipoDocumento}" style="width: 100%">
+										<f:selectItem itemLabel="Seleziona Tipo"/>
+        								<f:selectItem itemValue="p" itemLabel="Patente"/>
+        								<f:selectItem itemValue="c" itemLabel="Carta Identita"/>	
+    								</h:selectOneMenu></li>
+								
+								<li><h3>Numero Documento*</h3><p:inputText value="#{clienti.numeroDocumento}" required="true"/></li>
+								<hr/>
+								<li><h:commandButton value="INVIA" action="#{clienti.insertUtente( loginBean.impianto )}" class="button" /></li>
+							</ul>
+							</h:form>
+						</div>
+						
+						
+						<div class="6u 12u$(small)">
+							<h:form>
+							<header>
+								<h2>Iscrivi cliente già Tesserato</h2>
+							</header>
+							<h3>Utente esistente nel sistema*</h3>
+							<h:selectOneMenu value="#{loginBean.clienteSel}">
+								<f:selectItem itemLabel="Seleziona Cliente" />
+        						<f:selectItems value="#{loginBean.clientiEsterni}" var="c" itemLabel="#{c.codCliente} #{c.nomeCliente} #{c.cognomeCliente}" itemValue="#{c.codCliente}" />
+    						</h:selectOneMenu>	
+    						<hr/>	
+    						<h:commandButton value="INVIA" action="#{loginBean.iscriviCliente}" class="button"/>
+							</h:form>
+						</div>
+						
+					</div>
+				
+			</div>
+    </h:body>
+</html>

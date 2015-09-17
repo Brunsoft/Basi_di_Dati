@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		    xmlns:h="http://java.sun.com/jsf/html"
+		    xmlns:f="http://java.sun.com/jsf/core"
+			xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+			xmlns:p="http://primefaces.org/ui"
+			xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:head>
+		<title>Gestione Piscine</title>
+		<h:outputScript library="js" name="jquery.min.js" />
+		<h:outputScript library="js" name="skel.min.js" />
+		<h:outputScript library="js" name="skel-layers.min.js" />
+		<h:outputScript library="js" name="init.js" />
+
+		<noscript>
+			<h:outputStylesheet library="css" name="skel.css"/>
+			<h:outputStylesheet library="css" name="style.css"/>
+			<h:outputStylesheet library="css" name="style-xlarge.css"/>
+		</noscript>
+	</h:head>
+	<h:body>
+
+		<!-- Header -->
+			<header id="header">
+				<h1><a href="area-riservata.jsf">#{loginBean.impianto}.</a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="lista-clienti.jsf">Lista Clienti</a></li>
+						<li><a href="nuovo-cliente.jsf">Nuovo Cliente</a></li>
+						<li><a href="lista-accessi.jsf">Lista Accessi</a></li>
+						<li><a href="nuovo-accesso.jsf">Nuovo Accesso</a></li>
+						<li><a href="chiusura-giornata.jsf">Chiusura Giornata</a></li>
+						<li>
+							<h:form>
+								<p:commandButton action="#{loginBean.logout}" value="Logout"  ajax="false" class="button"></p:commandButton>
+							</h:form>
+						</li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Banner -->
+			<section id="banner" class="wrapper style2 special">
+				<h2>Pagina di Backend</h2>
+				<p>Benvenuto #{loginBean.nomeCognome}</p>
+			</section>
+    </h:body>
+</html>

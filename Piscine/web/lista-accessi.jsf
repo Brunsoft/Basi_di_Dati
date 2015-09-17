@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		    xmlns:h="http://java.sun.com/jsf/html"
+		    xmlns:f="http://java.sun.com/jsf/core"
+			xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+			xmlns:p="http://primefaces.org/ui"
+			xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:head>
+		<title>Gestione Piscine</title>
+		<h:outputScript library="js" name="jquery.min.js" />
+		<h:outputScript library="js" name="skel.min.js" />
+		<h:outputScript library="js" name="skel-layers.min.js" />
+		<h:outputScript library="js" name="init.js" />
+
+		<noscript>
+			<h:outputStylesheet library="css" name="skel.css"/>
+			<h:outputStylesheet library="css" name="style.css"/>
+			<h:outputStylesheet library="css" name="style-xlarge.css"/>
+		</noscript>
+	</h:head>
+	<h:body>
+
+		<!-- Header -->
+			<header id="header">
+				<h1><a href="area-riservata.jsf">#{loginBean.impianto}.</a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="area-riservata.jsf">Indietro</a></li>
+						<li>
+							<h:form>
+								<p:commandButton action="#{loginBean.logout}" value="Logout"  ajax="false" class="button"></p:commandButton>
+							</h:form>
+						</li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Banner -->
+			<section id="banner1" class="wrapper style2 special">
+				<h2>Lista Accessi</h2>
+				<p>Lista degli accessi dei clienti iscritti all'Impianto "#{loginBean.impianto}".</p>
+			</section>
+			
+			<div class="container">
+				<hr/>
+				<h:form>
+					<div class="row uniform">				
+						<div class="3u 12u$(small)">
+							<h:selectOneMenu value="#{loginBean.clienteSelListaAcc}">
+								<f:selectItem itemLabel="Seleziona Cliente"/>
+        						<f:selectItems value="#{loginBean.clientiAccessi}" var="c" itemLabel="#{c.codCliente} #{c.nomeCliente} #{c.cognomeCliente}" itemValue="#{c.codCliente}" />
+    						</h:selectOneMenu>
+						</div>
+						<div class="3u 12u$(small)">
+							<h:inputText value="#{loginBean.dataInizioAccessi}" pt:type="date" style="width: 100%;"/>
+						</div>
+						<div class="3u 12u$(small)">
+							<h:inputText value="#{loginBean.dataFineAccessi}" pt:type="date" style="width: 100%;"/>
+						</div>
+						<div class="3u 12u$(small)">
+							<h:commandButton value="INVIA" action="#{loginBean.filtraAccessi}" class="button" style="margin-left: 30%"/>
+						</div>
+					</div>
+				</h:form>
+				<table>
+					<tr class="bold"><td>Nome</td><td>Cognome</td><td>Data Ingresso</td><td>Ora Ingresso</td><td>Impianto</td></tr>
+					<ui:repeat value="#{loginBean.accessi}" var="c">
+						<tr>
+							<td><h:outputText value="#{c.nomeCliente}"></h:outputText></td>
+							<td><h:outputText value="#{c.cognomeCliente}"></h:outputText></td>
+							<td><h:outputText value="#{c.dataEntrata}"><f:convertDateTime timeZone="Europe/Rome" pattern="dd-MM-yyyy"/></h:outputText></td>
+							<td><h:outputText value="#{c.oraEntrata}"><f:convertDateTime timeZone="Europe/Rome" pattern="HH:mm"/></h:outputText></td>
+							<td><h:outputText value="#{c.nomeImpianto}"></h:outputText></td>
+						</tr>
+					</ui:repeat>
+				</table>
+			</div>
+    </h:body>
+</html>

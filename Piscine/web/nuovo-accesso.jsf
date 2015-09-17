@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		    xmlns:h="http://java.sun.com/jsf/html"
+		    xmlns:f="http://java.sun.com/jsf/core"
+			xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+			xmlns:p="http://primefaces.org/ui"
+			xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:head>
+		<title>Gestione Piscine</title>
+		<h:outputScript library="js" name="jquery.min.js" />
+		<h:outputScript library="js" name="skel.min.js" />
+		<h:outputScript library="js" name="skel-layers.min.js" />
+		<h:outputScript library="js" name="init.js" />
+
+		<noscript>
+			<h:outputStylesheet library="css" name="skel.css"/>
+			<h:outputStylesheet library="css" name="style.css"/>
+			<h:outputStylesheet library="css" name="style-xlarge.css"/>
+		</noscript>
+	</h:head>
+	<h:body>
+
+		<!-- Header -->
+			<header id="header">
+				<h1><a href="area-riservata.jsf">#{loginBean.impianto}.</a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="area-riservata.jsf">Indietro</a></li>
+						<li>
+							<h:form>
+								<p:commandButton action="#{loginBean.logout}" value="Logout"  ajax="false" class="button"></p:commandButton>
+							</h:form>
+						</li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Banner -->
+			<section id="banner1" class="wrapper style2 special">
+				<h2>Nuovo Accesso</h2>
+				<p>Inserisci un nuovo accesso di un Cliente all'Impianto "#{loginBean.impianto}".</p>
+				<h:messages for="error" id="error"/>
+				<h:messages for="notific" id="notific"/>
+			</section>
+			
+			<div class="container">
+				<hr/>
+				<h:form>
+				<div class="row uniform">
+									
+						<div class="3u 12u$(small)">
+							<h:selectOneMenu value="#{loginBean.clienteSelNuovoAcc}">
+								<f:selectItem itemLabel="Seleziona Cliente" />
+        						<f:selectItems value="#{loginBean.clientiImpianto}" var="c" itemLabel="#{c.codCliente} #{c.nomeCliente} #{c.cognomeCliente}" itemValue="#{c.codCliente}"/>
+    						</h:selectOneMenu>
+    						<hr/>
+    						<h:commandButton value="CERCA" action="#{loginBean.ricercaIngressi}" class="button"/>
+						</div>
+					
+					<div class="9u 12u$(small)">
+						<h:panelGroup rendered="#{loginBean.clienteSelNuovoAcc != 0 and !loginBean.abbonamenti.isEmpty()}">
+							<h2>Il cliente selezionato può utilizzare i seguenti biglietti!</h2>
+							<h:form>
+								<table>
+									<tr class="bold">
+										<td>Cod Biglietto</td>
+										<td>Tipo Biglietto</td>
+										<td>Inizio Abbonamento</td>
+										<td>Fine Abbonamento</td>
+										<td>Ingressi Totali</td>
+										<td>Ingressi Rimanenti</td>
+										<td></td>
+									</tr>
+									<ui:repeat value="#{loginBean.abbonamenti}" var="c">
+										<tr>
+											<td><h:outputText value="#{c.codBiglietto}"></h:outputText></td>
+											<td><h:outputText value="#{c.tipoBigliettoString}"></h:outputText></td>
+											<td><h:outputText value="#{c.dataInizioAbbonamento}">
+												<f:convertDateTime timeZone="Europe/Rome" pattern="dd-MM-yyyy"/></h:outputText></td>
+											<td><h:outputText value="#{c.dataFineAbbonamento}">
+												<f:convertDateTime timeZone="Europe/Rome" pattern="dd-MM-yyyy"/></h:outputText></td>	
+											<td><h:outputText value="#{c.totaleIngressi}"></h:outputText></td>
+											<td><h:outputText value="#{c.ingressiRimasti}"></h:outputText></td>
+											<td><h:commandButton value="UTILIZZA" action="#{loginBean.inserisciIngresso(c.codBiglietto, c.tipoBiglietto)}" class="button"/></td>
+										</tr>
+									</ui:repeat>
+								</table>
+							</h:form>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{loginBean.clienteSelNuovoAcc != 0 and loginBean.abbonamenti.isEmpty()}">
+							<h2>Il cliente selezionato non ha abbonamenti utilizzabili!</h2>
+							<h:form>
+								<table>
+									<tr>
+										<td><h:commandButton value="Biglietto Singolo" action="#{loginBean.nuovoBiglietto('s')}" class="button"/></td>
+										<td><h:commandButton value="Abbonamento" action="#{loginBean.nuovoBiglietto('a')}" class="button"/></td>
+										<td><h:commandButton value="10 Ingressi" action="#{loginBean.nuovoBiglietto('d')}" class="button"/></td>
+										<td><h:commandButton value="50 Ingressi" action="#{loginBean.nuovoBiglietto('c')}" class="button"/></td>
+									</tr>
+								</table>
+							</h:form>
+						</h:panelGroup>
+					</div>
+				</div>
+				</h:form>
+			</div>
+    </h:body>
+</html>

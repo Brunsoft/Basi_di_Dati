@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		    xmlns:h="http://java.sun.com/jsf/html"
+		    xmlns:f="http://java.sun.com/jsf/core"
+			xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+			xmlns:p="http://primefaces.org/ui"
+			xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:head>
+		<title>Gestione Piscine</title>
+		<h:outputScript library="js" name="jquery.min.js" />
+		<h:outputScript library="js" name="skel.min.js" />
+		<h:outputScript library="js" name="skel-layers.min.js" />
+		<h:outputScript library="js" name="init.js" />
+
+		<noscript>
+			<h:outputStylesheet library="css" name="skel.css"/>
+			<h:outputStylesheet library="css" name="style.css"/>
+			<h:outputStylesheet library="css" name="style-xlarge.css"/>
+		</noscript>
+	</h:head>
+	<h:body class="landing">
+
+		<!-- Header -->
+			<header id="header">
+				<h1><a href="index.jsf">Gestione Piscine.</a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="#impianti">Impianti</a></li>
+						<li><a href="#login">Login</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Banner -->
+			<section id="banner" class="wrapper style2 special">
+				<h2>Progetto di Laboratorio Basi di Dati</h2>
+				<p>Gestione Impianti Acquatici</p>
+			</section>
+	
+		<!-- One -->
+		<div id="impianti">
+			<h:form>
+				<section id="one" class="wrapper style1 special">
+					<div class="container">
+						<header class="major">
+							<h2>Pisine presenti nel Sistema:</h2>
+						</header>
+						<div class="row 150%">
+						  	<ui:repeat value="#{loginBean.impianti}" var="i">
+								<div class="4u 6u(medium) 12u$(small)">
+									<section class="box1">
+										<div class="#{i.image}"></div>
+										<h3>#{i.nome}</h3>
+										<h4>#{i.comune} - #{i.indirizzo}</h4>
+										<div class="tipo1">
+											<img src="#{resource['images/25ok.png']}" style="width: 25%px; visibility:#{i.tipoV};" halt=""/>
+										</div>
+										<div class="tipo2">
+											<img src="#{resource['images/50ok.png']}" style="width: 25%px; visibility:#{i.tipoC};" alt=""/>
+										</div>
+										<div class="tipo3">
+											<img src="#{resource['images/tuffiok.png']}" style="width: 25%px; visibility:#{i.tipoT};" alt=""/>
+										</div>
+										<div class="tipo4">
+											<img src="#{resource['images/bimbiok.png']}" style="width: 25%px; visibility:#{i.tipoB};" alt=""/>
+										</div>
+	
+										<h:commandLink value="Dettagli" action="#{loginBean.impiantoSel( i )}" class="button button-style1" />
+									</section>
+								</div>
+							</ui:repeat>
+						</div>
+					</div>
+				</section>
+			</h:form>
+		</div>
+		<div id="login">
+			<section id="three" class="wrapper style3 special">
+				<div class="container">
+					<header class="major">
+						<h2>Login</h2>
+						<p>Effettua il login per accedere a più funzionalità!</p>
+					</header>
+				</div>
+				<div class="container 50%">
+					<h:form id="loginForm">
+						
+						<div class="row uniform">
+							<div class="6u 12u$(small)">
+								<h1>Matricola</h1>
+								<p:inputText id="username" placeholder="Username" value="#{loginBean.matricola}"></p:inputText>
+								
+							</div>
+							<div class="6u$ 12u$(small)">
+								<h1>Password</h1>
+								<p:password id="password" value="#{loginBean.password}" feedback="false"></p:password>
+								
+							</div>
+							
+							<div class="12u$">
+								<ul class="actions">
+									<li>
+										<p:commandButton action="#{loginBean.loginProject}" value="Login" update="loginForm" ajax="true" class="button">
+										</p:commandButton>
+									</li>
+								</ul>
+								<ul class="actions">
+									<li><h:messages></h:messages></li>
+								</ul>
+							</div>
+						</div>
+					</h:form>
+				</div>
+			</section>
+		</div>
+    </h:body>
+</html>
